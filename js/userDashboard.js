@@ -69,7 +69,7 @@ const startLogOutTimer = () => {
 
     if (time === 0) {
       clearInterval(timer);
-      window.location.href = './../../index.html';
+      window.location.href = './../index.html';
     }
     time--;
   };
@@ -267,7 +267,7 @@ const handleClose = e => {
       localStorage.removeItem('loggedInUser');
     }
 
-    window.location.href = './../../index.html';
+    window.location.href = './../index.html';
   }
   UI.inputs.closeUsername.value = UI.inputs.closePin.value = '';
 };
@@ -283,7 +283,7 @@ const handleLogout = () => {
   localStorage.removeItem('loggedInUser');
 
   // Redirect to login page
-  window.location.href = './../../index.html';
+  window.location.href = './../index.html';
 };
 
 const handleSort = e => {
@@ -306,7 +306,7 @@ const initializeApp = () => {
   } catch (error) {
     console.error('Error loading user data:', error);
     alert('Error loading user data. Redirecting to login page...');
-    window.location.href = './../../index.html';
+    window.location.href = './../index.html';
     return;
   }
 

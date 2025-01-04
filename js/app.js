@@ -90,7 +90,7 @@ const handleLogin = e => {
 
   if (account) {
     localStorage.setItem('loggedInUser', JSON.stringify(account));
-    window.location.href = './../transactions.html';
+    window.location.href = './../pages/transactions.html';
   } else {
     alert('Invalid username or PIN');
   }
@@ -130,7 +130,7 @@ const handleRegister = e => {
   localStorage.setItem('loggedInUser', JSON.stringify(newAccount));
 
   // Redirect to dashboard
-  window.location.href = './../transactions.html';
+  window.location.href = './../pages/transactions.html';
 };
 
 // Initialize modal events
