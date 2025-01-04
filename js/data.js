@@ -41,9 +41,9 @@ export const accounts = [
     locale: 'en-US',
   },
   {
-    owner: 'Steven Thomas Williams',
+    owner: 'Steven Thomas',
     email: 'steven@example.com',
-    username: 'stw',
+    username: 'st',
     pin: '3333',
     movements: [200, -200, 340, -300, -20, 50, 400, -460],
     interestRate: 0.7,
