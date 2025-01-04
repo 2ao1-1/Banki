@@ -197,15 +197,32 @@ const saveAccountData = account => {
   localStorage.setItem('loggedInUser', JSON.stringify(account));
 };
 
+// transfer validation
+const validateTransfer = receiverUsername => {
+  const allAccounts = JSON.parse(localStorage.getItem('accounts')) || accounts;
+  const receiverAcc = allAccounts.find(
+    acc => acc.username === receiverUsername
+  );
+
+  if (!receiverAcc) {
+    alert('Account not found! Please check the username and try again.');
+    return null;
+  }
+
+  return receiverAcc;
+};
+
 // Event Handlers
 const handleTransfer = e => {
   e.preventDefault();
   const amount = +UI.inputs.transferAmount.value;
-  const receiverAcc = accounts.find(
-    acc => acc.username === UI.inputs.transferTo.value
-  );
+  const receiverAcc = validateTransfer(UI.inputs.transferTo.value);
 
-  UI.inputs.transferAmount.value = UI.inputs.transferTo.value = '';
+  if (!receiverAcc) {
+    UI.inputs.transferTo.value = UI.inputs.transferAmount.value = '';
+    return;
+  }
+  UI.inputs.transferTo.value = UI.inputs.transferAmount.value = '';
 
   if (
     amount > 0 &&
@@ -251,39 +268,68 @@ const handleLoan = e => {
 const handleClose = e => {
   e.preventDefault();
 
+  const inputUsername = UI.inputs.closeUsername.value;
+  const inputPin = +UI.inputs.closePin.value;
+
+  // console.log(currentAccount);
+
   if (
-    UI.inputs.closeUsername.value === currentAccount.username &&
-    +UI.inputs.closePin.value === currentAccount.pin
+    inputUsername === currentAccount.username &&
+    inputPin === currentAccount.pin
   ) {
-    const allAccounts =
-      JSON.parse(localStorage.getItem('accounts')) || accounts;
-    const index = allAccounts.findIndex(
-      acc => acc.username === currentAccount.username
-    );
-
-    if (index !== -1) {
-      allAccounts.splice(index, 1);
-      localStorage.setItem('accounts', JSON.stringify(allAccounts));
-      localStorage.removeItem('loggedInUser');
-    }
-
-    window.location.href = './../index.html';
+    console.log('great');
+    console.log(currentAccount);
   }
+
+  // if (
+  //   inputUsername === currentAccount.username &&
+  //   inputPin === currentAccount.pin
+  // ) {
+  //   const confirmClose = confirm(
+  //     'هل أنت متأكد من حذف حسابك؟ هذا الإجراء لا يمكن التراجع عنه!'
+  //   );
+
+  //   if (confirmClose) {
+  //     const allAccounts =
+  //       JSON.parse(localStorage.getItem('accounts')) || accounts;
+
+  //     const index = allAccounts.findIndex(
+  //       acc => acc.username === currentAccount.username
+  //     );
+
+  //     if (index !== -1) {
+  //       allAccounts.splice(index, 1);
+
+  //       localStorage.setItem('accounts', JSON.stringify(allAccounts));
+  //       localStorage.removeItem('loggedInUser');
+
+  //       alert('تم حذف حسابك بنجاح');
+  //       window.location.href = './../index.html';
+  //     }
+  //   }
+  // } else {
+  //   alert('بيانات غير صحيحة! تأكد من اسم المستخدم وكلمة المرور.');
+  // }
+
+  // تفريغ الحقول
   UI.inputs.closeUsername.value = UI.inputs.closePin.value = '';
 };
 
 const handleLogout = () => {
-  // Save current account data before logout
-  saveAccountData(currentAccount);
+  const confirmLogout = confirm('Are you sure you want to logout?');
+  if (confirmLogout) {
+    // Save current account data before logout
+    saveAccountData(currentAccount);
 
-  // Clear the timer
-  if (timer) clearInterval(timer);
+    // Clear the timer
+    if (timer) clearInterval(timer);
 
-  // Remove logged-in user data
-  localStorage.removeItem('loggedInUser');
+    // Remove logged-in user data
+    localStorage.removeItem('loggedInUser');
 
-  // Redirect to login page
-  window.location.href = './../index.html';
+    // Redirect to login page
+    window.location.href = './../index.html';
+  }
 };
 
 const handleSort = e => {
@@ -302,6 +348,18 @@ const initializeApp = () => {
     // Validate the user data structure
     if (!loggedInUser || !Array.isArray(loggedInUser.movements)) {
       throw new Error('Invalid user data structure');
+    }
+
+    // Get all accounts to ensure data consistency
+    const allAccounts =
+      JSON.parse(localStorage.getItem('accounts')) || accounts;
+    const userAccount = allAccounts.find(
+      acc => acc.username === loggedInUser.username
+    );
+
+    // If user exists in accounts, use that data instead
+    if (userAccount) {
+      loggedInUser = userAccount;
     }
   } catch (error) {
     console.error('Error loading user data:', error);
@@ -330,11 +388,15 @@ const initializeApp = () => {
     currentAccount.owner?.split(' ')[0] || 'User'
   }!`;
 
+  // Save initial state
+  saveAccountData(currentAccount);
+
   if (timer) clearInterval(timer);
   timer = startLogOutTimer();
 
   updateUI(currentAccount);
 
+  // Auto-save on page unload
   window.addEventListener('beforeunload', () => {
     saveAccountData(currentAccount);
   });

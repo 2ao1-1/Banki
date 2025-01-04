@@ -23,6 +23,23 @@ const createUsername = fullName => {
     .join('');
 };
 
+// Mobile menu functionality
+const navToggle = document.querySelector('.nav__toggle');
+const navLinks = document.querySelector('.nav__links');
+
+navToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('nav-open');
+  navToggle.classList.toggle('nav-open');
+});
+
+// Close mobile menu when clicking a link
+document.querySelectorAll('.nav__link').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('nav-open');
+    navToggle.classList.remove('nav-open');
+  });
+});
+
 // Show login form
 const showLoginForm = () => {
   modal.innerHTML = `
