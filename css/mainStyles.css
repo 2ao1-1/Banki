@@ -730,9 +730,6 @@ h4 {
     transform: translateY(0);
   }
 
-  .section:first-of-type {
-    margin-top: 20rem;
-  }
   .section {
     padding: 10rem 3rem;
   }
