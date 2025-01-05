@@ -3,6 +3,25 @@ import { accounts } from './data.js';
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+
+// Mobile menu functionality
+const navToggle = document.querySelector('.nav__toggle');
+const navLinks = document.querySelector('.nav__links');
+
+navToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('nav-open');
+  navToggle.classList.toggle('nav-open');
+});
+
+// Close mobile menu when clicking a link
+document.querySelectorAll('.nav__link').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('nav-open');
+    navToggle.classList.remove('nav-open');
+  });
+});
+
+
 // Helper functions
 const closeModal = () => {
   modal.classList.add('hidden');
@@ -23,22 +42,6 @@ const createUsername = fullName => {
     .join('');
 };
 
-// Mobile menu functionality
-const navToggle = document.querySelector('.nav__toggle');
-const navLinks = document.querySelector('.nav__links');
-
-navToggle.addEventListener('click', () => {
-  navLinks.classList.toggle('nav-open');
-  navToggle.classList.toggle('nav-open');
-});
-
-// Close mobile menu when clicking a link
-document.querySelectorAll('.nav__link').forEach(link => {
-  link.addEventListener('click', () => {
-    navLinks.classList.remove('nav-open');
-    navToggle.classList.remove('nav-open');
-  });
-});
 
 // Show login form
 const showLoginForm = () => {
@@ -99,7 +102,7 @@ const handleLogin = e => {
   const username = document.getElementById('username').value;
   const pin = document.getElementById('pin').value;
 
-  // Get accounts from localStorage or use the imported accounts
+  // Get accounts from localStorage
   const allAccounts = JSON.parse(localStorage.getItem('accounts')) || accounts;
   const account = allAccounts.find(
     acc => acc.username === username && acc.pin === pin
@@ -123,7 +126,7 @@ const handleRegister = e => {
     document.getElementById('initialBalance').value
   );
 
-  // Get existing accounts or initialize empty array
+  // Get existing accounts
   const allAccounts = JSON.parse(localStorage.getItem('accounts')) || accounts;
 
   // Create new account object
@@ -155,7 +158,7 @@ const initModal = () => {
   btnsOpenModal.forEach(btn => btn.addEventListener('click', openModal));
   overlay.addEventListener('click', closeModal);
 
-  // Show login form by default
+  // Show login form 
   showLoginForm();
 
   // Handle escape key

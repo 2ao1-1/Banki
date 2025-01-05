@@ -1,7 +1,6 @@
-// Import dependencies
 import { accounts } from './data.js';
 
-// DOM Elements
+// Elements
 const UI = {
   labels: {
     welcome: document.querySelector('.welcome'),
@@ -34,7 +33,7 @@ const UI = {
   },
 };
 
-// State Management
+// initial variables
 let currentAccount, timer;
 let sorted = false;
 
@@ -89,17 +88,16 @@ const displayMovements = (acc, sort = false) => {
 
   UI.containers.movements.innerHTML = '';
 
-  // Create a copy of the movements array before sorting
+  // copy array before sorting
   const movements = [...acc.movements];
   const dates = [...(acc.movementsDates || [])];
 
-  // If sort is true, sort the movements and keep track of the original indices
   const indexes = movements.map((_, i) => i);
   if (sort) {
     indexes.sort((a, b) => movements[a] - movements[b]);
   }
 
-  // Use the indexes to display movements in the correct order
+  // indexes to display movements
   indexes.forEach(i => {
     const mov = movements[i];
     const type = mov > 0 ? 'deposit' : 'withdrawal';
@@ -190,7 +188,6 @@ const saveAccountData = account => {
     allAccounts[accountIndex] = account;
   }
 
-  // save
   localStorage.setItem('accounts', JSON.stringify(allAccounts));
 
   // update logged user data
@@ -271,8 +268,6 @@ const handleClose = e => {
   const inputUsername = UI.inputs.closeUsername.value;
   const inputPin = +UI.inputs.closePin.value;
 
-  // console.log(currentAccount);
-
   if (
     inputUsername === currentAccount.username &&
     inputPin === currentAccount.pin
@@ -281,37 +276,6 @@ const handleClose = e => {
     console.log(currentAccount);
   }
 
-  // if (
-  //   inputUsername === currentAccount.username &&
-  //   inputPin === currentAccount.pin
-  // ) {
-  //   const confirmClose = confirm(
-  //     'هل أنت متأكد من حذف حسابك؟ هذا الإجراء لا يمكن التراجع عنه!'
-  //   );
-
-  //   if (confirmClose) {
-  //     const allAccounts =
-  //       JSON.parse(localStorage.getItem('accounts')) || accounts;
-
-  //     const index = allAccounts.findIndex(
-  //       acc => acc.username === currentAccount.username
-  //     );
-
-  //     if (index !== -1) {
-  //       allAccounts.splice(index, 1);
-
-  //       localStorage.setItem('accounts', JSON.stringify(allAccounts));
-  //       localStorage.removeItem('loggedInUser');
-
-  //       alert('تم حذف حسابك بنجاح');
-  //       window.location.href = './../index.html';
-  //     }
-  //   }
-  // } else {
-  //   alert('بيانات غير صحيحة! تأكد من اسم المستخدم وكلمة المرور.');
-  // }
-
-  // تفريغ الحقول
   UI.inputs.closeUsername.value = UI.inputs.closePin.value = '';
 };
 
@@ -350,14 +314,12 @@ const initializeApp = () => {
       throw new Error('Invalid user data structure');
     }
 
-    // Get all accounts to ensure data consistency
     const allAccounts =
       JSON.parse(localStorage.getItem('accounts')) || accounts;
     const userAccount = allAccounts.find(
       acc => acc.username === loggedInUser.username
     );
 
-    // If user exists in accounts, use that data instead
     if (userAccount) {
       loggedInUser = userAccount;
     }
