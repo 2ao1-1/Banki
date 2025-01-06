@@ -736,7 +736,7 @@ h4 {
 
   .operations__tab-container {
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem;
   }
   .btn {
     padding: 0.5rem 1rem;
