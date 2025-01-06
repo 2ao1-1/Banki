@@ -279,7 +279,8 @@ h4 {
 
 .operations__tab-container {
   display: flex;
-  justify-content: center;
+  gap: 1rem;
+  justify-content: space-evenly;
 }
 
 .operations__tab {
@@ -736,7 +737,6 @@ h4 {
 
   .operations__tab-container {
     align-items: center;
-    gap: 1.5rem;
   }
   .btn {
     padding: 0.5rem 1rem;
