@@ -1,0 +1,15 @@
+{
+  "name": "Banki | When Banking meets Minimalist",
+  "short_name": "Banki",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#5ec576",
+  "theme_color": "#39b385",
+  "icons": [
+    {
+      "src": "/assets/img/icon.png",
+      "sizes": "106x106",
+      "type": "image/png"
+    }
+  ]
+}

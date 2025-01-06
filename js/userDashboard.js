@@ -37,6 +37,11 @@ const UI = {
 let currentAccount, timer;
 let sorted = false;
 
+// cache
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/js/service-worker.js').then(() => {});
+}
+
 // Utility Functions
 const formatMovementDate = (date, locale) => {
   const calcDaysPassed = (date1, date2) =>
@@ -261,21 +266,54 @@ const handleLoan = e => {
 
   UI.inputs.loanAmount.value = '';
 };
-
+const lol = JSON.parse(localStorage.getItem('accounts'));
+console.log(lol);
+// console.log(currentAccount);
 const handleClose = e => {
   e.preventDefault();
 
-  const inputUsername = UI.inputs.closeUsername.value;
+  const inputUsername = UI.inputs.closeUsername.value.trim();
   const inputPin = +UI.inputs.closePin.value;
 
+  const lol = JSON.parse(localStorage.getItem('accounts'));
+  console.log(lol);
+
+  console.log(inputUsername, inputPin, currentAccount);
   if (
     inputUsername === currentAccount.username &&
-    inputPin === currentAccount.pin
+    inputPin === +currentAccount.pin
   ) {
-    console.log('great');
-    console.log(currentAccount);
+    const confirmDelete = confirm(
+      'Are you sure you want to delete your account? This action cannot be undone.'
+    );
+    if (confirmDelete) {
+      const allAccounts =
+        JSON.parse(localStorage.getItem('accounts')) || accounts;
+      const index = allAccounts.findIndex(
+        acc => acc.username === currentAccount.username
+      );
+
+      if (index !== -1) {
+        allAccounts.splice(index, 1);
+        localStorage.setItem('accounts', JSON.stringify(allAccounts));
+
+        localStorage.removeItem('loggedInUser');
+
+        if (timer) clearInterval(timer);
+
+        alert('Your account has been successfully deleted!');
+
+        window.location.href = './../index.html';
+
+        const lol = JSON.parse(localStorage.getItem('accounts'));
+        console.log(lol);
+      } else {
+        alert('Incorrect username or password. Please try again.');
+      }
+    }
   }
 
+  // مسح حقول الإدخال
   UI.inputs.closeUsername.value = UI.inputs.closePin.value = '';
 };
 

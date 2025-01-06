@@ -4,6 +4,11 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 
+// install to phone
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/js/service-worker.js').then(() => {});
+}
+
 // Mobile menu functionality
 const navToggle = document.querySelector('.nav__toggle');
 const navLinks = document.querySelector('.nav__links');
@@ -20,7 +25,6 @@ document.querySelectorAll('.nav__link').forEach(link => {
     navToggle.classList.remove('nav-open');
   });
 });
-
 
 // Helper functions
 const closeModal = () => {
@@ -41,7 +45,6 @@ const createUsername = fullName => {
     .map(name => name[0])
     .join('');
 };
-
 
 // Show login form
 const showLoginForm = () => {
@@ -158,7 +161,7 @@ const initModal = () => {
   btnsOpenModal.forEach(btn => btn.addEventListener('click', openModal));
   overlay.addEventListener('click', closeModal);
 
-  // Show login form 
+  // Show login form
   showLoginForm();
 
   // Handle escape key
