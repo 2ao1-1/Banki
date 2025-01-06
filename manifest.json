@@ -1,14 +1,20 @@
 {
   "name": "Banki | When Banking meets Minimalist",
   "short_name": "Banki",
+  "description": "An intuitive, minimalist banking app for seamless user experience.",
   "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#5ec576",
+  "background_color": "#ffffff",
   "theme_color": "#39b385",
   "icons": [
     {
-      "src": "/assets/img/icon.png",
-      "sizes": "106x106",
+      "src": "/assets/img/logo.png",
+      "sizes": "284x106",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/img/logo.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ]
