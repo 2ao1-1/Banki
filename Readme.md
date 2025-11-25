@@ -33,7 +33,7 @@ For testing purposes, use these accounts:
 ## 🚀 Live Demo
 
 Check out the live version of Banki here:
-[Visit Banki App](https://banky.netlify.app/)
+[Visit Banki App](https://banki.2ao1.space/)
 
 ## 📚 Course Information
 
